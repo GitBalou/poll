@@ -4,7 +4,7 @@ const AuthCtrl = require('../../controllers/AuthCtrl');
 describe("AuthCtrl", () => {
 
     describe("#Injection", () => {
-        const authCtrl = new AuthCtrl({});
+        const authCtrl = new AuthCtrl(true);
 
         it("Le service userService est injecté en tant que dépendance", () => {
              expect(authCtrl._userService).toBe(true);

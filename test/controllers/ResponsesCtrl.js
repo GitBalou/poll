@@ -6,7 +6,7 @@ describe("Responsesctrl", () => {
     describe("#injection", () => {
 
         it("les services PollService & UserService sont injectés", () => {
-            const responsesCtrl = new ResponsesCtrl({}, {});
+            const responsesCtrl = new ResponsesCtrl(true, true);
             expect(responsesCtrl._pollService).toBe(true);
             expect(responsesCtrl._userService).toBe(true);
         });
@@ -29,42 +29,19 @@ describe("Responsesctrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.message).toExist("l'id du sondage n'est pas spécifiée");
+                            expect(data.message).toBe("l'id du sondage n'est pas spécifiée");
                         }
                     }
                 }
             };
             
-            new responsesCtrl.addResponseToPoll(req, res);
-        });
-
-        it("le paramètre id n'est pas un entier : status 400", () => {
-            const responsesCtrl = new ResponsesCtrl({});
-
-            const req = {
-                params: {
-                    id: '33.7'
-                }
-            };
-
-            const res = {
-                status: code => {
-                    expect(code).toBe(400);
-
-                    return {
-                        json: data => {
-                            expect(data).toExist();
-                            expect(data.message).toExist("id non valides");
-                        }
-                    }
-                }
-            };
-            
-            new responsesCtrl.addResponseToPoll(req, res);
+            responsesCtrl.addResponseToPoll(req, res);
         });
 
         it("Le corps de la requête est invalide : status 400", () => {
-            const responsesCtrl = new ResponsesCtrl({});
+            const responsesCtrl = new ResponsesCtrl({
+                pollExists: id => {return id != 5;},
+            }, {});
 
             const req = {
                 params: {
@@ -80,23 +57,27 @@ describe("Responsesctrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.message).toExist("body invalide");
+                            expect(data.message).toBe("body invalide");
                         }
                     }
                 }
             };
             
-            new responsesCtrl.addResponseToPoll(req, res);
+            responsesCtrl.addResponseToPoll(req, res);
         });
 
         it("Le paramètre id ne correspond à aucun sondage : status 404", () => {
             const responsesCtrl = new ResponsesCtrl({
-                pollExists: () => false,
-            });
+                pollExists: id => {return id != 99;},
+            }, {});
 
             const req = {
                 params: {
                     id: '99'
+                },
+                 body: {
+                    user_id: 99,
+                    reponse_id: 100
                 }
             };
 
@@ -107,20 +88,20 @@ describe("Responsesctrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.message).toExist("le sondage n'existe pas");
+                            expect(data.message).toBe("le sondage n'existe pas");
                         }
                     }
                 }
             };
             
-            new responsesCtrl.addResponseToPoll(req, res);
+            responsesCtrl.addResponseToPoll(req, res);
         });
 
         it("il n'y a pas d'utilisateur associé à user_id : status 404", () => {
             const responsesCtrl = new ResponsesCtrl({
                 pollExists: () => true,
             }, {
-                userExist: () => false,
+                userExist: id => id != 99,
             });
 
             const req = {
@@ -139,13 +120,13 @@ describe("Responsesctrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.message).toExist("l'utilisateur spécifié n'existe pas");
+                            expect(data.message).toBe("l'utilisateur spécifié n'existe pas");
                         }
                     }
                 }
             };
             
-            new responsesCtrl.addResponseToPoll(req, res);
+            responsesCtrl.addResponseToPoll(req, res);
         });
 
         it("il n'y a pas de réponse associée à response_id pour ce sondage: status 404", () => {
@@ -153,7 +134,7 @@ describe("Responsesctrl", () => {
                 pollExists: () => true,
             }, {
                 userExist: () => true,
-                responseExist: () => false,
+                responseExist: id => id != 55,
             });
 
             const req = {
@@ -162,7 +143,7 @@ describe("Responsesctrl", () => {
                 },
                 body: {
                     user_id: 99,
-                    response_id
+                    response_id: 55
                 }
             };
 
@@ -173,13 +154,13 @@ describe("Responsesctrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.message).toExist("La réponse spécifiée n'existe pas pour ce sondage");
+                            expect(data.message).toBe("La réponse spécifiée n'existe pas pour ce sondage");
                         }
                     }
                 }
             };
             
-            new responsesCtrl.addResponseToPoll(req, res);
+            responsesCtrl.addResponseToPoll(req, res);
         });
 
         it("Paramètres valides : status 200", () => {
@@ -203,18 +184,18 @@ describe("Responsesctrl", () => {
             const res = {
                 status: code => {
                     expect(code).toBe(200);
-
+                    
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.message).toExist("success");
+                            expect(data.message).toBe("success");
                             expect(data.data).toExist();
                         }
                     }
                 }
             };
             
-            new responsesCtrl.addResponseToPoll(req, res);
+            responsesCtrl.addResponseToPoll(req, res);
         });
     });
 }); 
