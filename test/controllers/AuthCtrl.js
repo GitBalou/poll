@@ -27,7 +27,7 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.error).toBe("le mail n'est pas renseigné");
+                            expect(data.message).toBe("le mail n'est pas renseigné");
                         }
                     }
                 }
@@ -52,7 +52,7 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.error).toBe("le mail n'est pas valide");
+                            expect(data.message).toBe("le mail n'est pas valide");
                         }
                     }
                 }
@@ -77,9 +77,9 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.user).toExist();
-                            expect(data.user.email).toExist();
-                            expect(data.user.email).toBeA('string');
+                            expect(data.data).toExist();
+                            expect(data.data.email).toExist();
+                            expect(data.data.email).toBeA('string');
                         }
                     }
                 },
@@ -108,7 +108,7 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.error).toBe("Le mail n'est pas renseigné");
+                            expect(data.message).toBe("Le mail n'est pas renseigné");
                         }
                     }
                 }
@@ -133,7 +133,7 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.error).toBe("Le mot de passe n'est pas renseigné");
+                            expect(data.message).toBe("Le mot de passe n'est pas renseigné");
                         }
                     }
                 }
@@ -159,7 +159,7 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.error).toExist("le mail n'est pas valide");
+                            expect(data.message).toExist("le mail n'est pas valide");
                         }
                     }
                 }
@@ -187,7 +187,7 @@ describe("AuthCtrl", () => {
                     return {
                         json: data => {
                             expect(data).toExist();
-                            expect(data.error).toExist("Cet utilisateur n'existe pas");
+                            expect(data.message).toExist("Cet utilisateur n'existe pas");
                         }
                     }
                 }
@@ -211,11 +211,12 @@ describe("AuthCtrl", () => {
             const res = {
                 json: data => {
                     expect(data).toExist();
-                    expect(data.user).toExist();
-                    expect(data.user.email).toExist();
-                    expect(data.user.email).toBeA(string);
-                    expect(data.token).toExist();
-                    expect(data.token).toBeA(string);
+                    expect(data.data).toExist();
+                    expect(data.data.user).toExist();
+                    expect(data.data.user.email).toExist();
+                    expect(data.data.user.email).toBeA(string);
+                    expect(data.data.token).toExist();
+                    expect(data.data.token).toBeA(string);
                 }
             };
 
