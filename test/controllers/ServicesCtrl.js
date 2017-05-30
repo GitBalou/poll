@@ -82,29 +82,27 @@ describe("ServicesCtrl", () =>
         it("Doit retourner un tableau objet contenant les sondages d'un utilisateur si l'id de la requête est présente et valide", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
-                    getPollFromUserId: (id) =>
-                    {
-                        const ResponseModel = {id: "", label: "", userIdArray: [""]};
+                getPollFromUserId: (id) =>
+                {
+                    const ResponseModel = {id: "", label: "", userIdArray: [""]};
 
-                        const poll1 = {
-                            question: "",
-                            userId: "0",
-                            responseArray: [
-                                ResponseModel,
-                            ]
-                        };
+                    const poll1 = {
+                        question: "",
+                        userId: "0",
+                        responseArray: [
+                            ResponseModel,
+                        ]
+                    };
 
-                        const poll2 = {
-                            question: "",
-                            userId: "0",
-                            responseArray: [
-                                ResponseModel,
-                            ]
-                        };
+                    const poll2 = {
+                        question: "",
+                        userId: "0",
+                        responseArray: [
+                            ResponseModel,
+                        ]
+                    };
 
-                        return [poll1, poll2];
-                    }
+                    return [poll1, poll2];
                 }
             });
 
@@ -139,9 +137,7 @@ describe("ServicesCtrl", () =>
         it("Doit retourner une erreur 404 si l'id de la requête est présente et non valide", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
-                    getPollFromUserId: (id) => {return []}
-                }
+                getPollFromUserId: (id) => {return []}
             });
 
             const req = {
@@ -163,7 +159,7 @@ describe("ServicesCtrl", () =>
                             expect(data.message).toBe("Error");
                             expect(data.data).toExist();
                             expect(data.data).toBeA("array");
-                            expect(data.data).toBe([]);
+                            expect(data.data.length).toBe(0);
                             done();
                         }
                     }
@@ -184,7 +180,7 @@ describe("ServicesCtrl", () =>
 
             const req = {
                 params: {
-                    id: {}
+                    id: null
                 }
             };
 
