@@ -16,8 +16,11 @@ class ServicesCtrl
         }
 
         const stats = this._pollService.getUserInfoForPoll(poll);
-
-        res.status(200).json({message:'Success', data: stats});
+        const s= {};
+        s.response1 = stats[1];
+        s.response2 = stats[2];
+        s.response3 = stats[3];
+        res.status(200).json({message:'Success', data: {stats:s} });
     }
 
     listsAction(req, res) {

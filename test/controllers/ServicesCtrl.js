@@ -206,7 +206,6 @@ describe("ServicesCtrl", () =>
         it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
                     getPollFromPollId: (id) => { return [] },
                     getUserInfoForPoll: id =>
                     {
@@ -228,7 +227,7 @@ describe("ServicesCtrl", () =>
                             },
                         };
                     }
-                }
+                
             });
 
             const body = {
@@ -268,8 +267,7 @@ describe("ServicesCtrl", () =>
         it("Doit renvoyer un objet contenant les statistiques du sondage  si l'id du sondage est présent dans les paramètres de la requête , et, est présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
-                    getPollFromPollId: (id) => { return [] },
+                    getPollFromPollId: (id) => { return ['a'] },
                     getUserInfoForPoll: id =>
                     {
                         return stats = {
@@ -290,7 +288,7 @@ describe("ServicesCtrl", () =>
                             },
                         };
                     }
-                }
+                
             });
 
             const req = {
@@ -301,7 +299,7 @@ describe("ServicesCtrl", () =>
 
             const res = {
                 status: code => {
-                    expect(code).toBe(500);
+                    expect(code).toBe(200);
 
                     return {
                         json: data =>
