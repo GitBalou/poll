@@ -5,13 +5,13 @@ const PollsCtrl = require('../../controllers/PollsCtrl');
 describe("PollsCtrl", () => {
     describe("#pollsPut", () => {
 
-        it("Doit avoir un user_id", () => {
+        it("Doit avoir un user_id pour pouvoir créer un sondage", () => {
             const pollsCtrl = new PollsCtrl({
                 
             });
 
             const req = {
-                params: { }
+                params: {}
             };
             const res = {
                 
@@ -20,19 +20,38 @@ describe("PollsCtrl", () => {
         });
 
 
-        it("Doit comprendre une question", () => {
-            const pollsCtrl = new PollsCtrl({
+        it("Doit retourner le message question_required s'il manque la question dans les paramètres", () => {
+            const pollsCtrl = new PollsCtrl({ })
 
-            })
+            const req = {
+                body: { }
+            };
 
-            const questions = document.getElementById("question").value;
+            const res = {
+                json: result => {
+                    expect(result).toBe("question_required");
+                }
+            };
 
-            if (questions === null || typeof questions === 'undefined') {
-                // Erreur
-            } else {
-                // C'est good
-            }
-            
+            pollsCtrl.postPoll(req, res);   
+        });
+
+        it("Doit retourner le message question_required quand le paramètres question est une chaine de caractère vide.", () => {
+            const pollsCtrl = new PollsCtrl({ })
+
+            const req = {
+                body: {
+                    question: ''
+                 }
+            };
+
+            const res = {
+                json: result => {
+                    expect(result).toBe("question_required");
+                }
+            };
+
+            pollsCtrl.postPoll(req, res);
         });
 
 

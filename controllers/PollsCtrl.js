@@ -5,7 +5,12 @@ class PollsCtrl {
         this._fs = fs;
     }
 
+    postPoll(req, res) {
+
+    }
     
+    
+
 }
 
 module.exports = PollsCtrl;
