@@ -7,16 +7,14 @@ describe("PollsCtrl", () => {
 
         it("Doit avoir un user_id", () => {
             const pollsCtrl = new PollsCtrl({
-                appendFile: () => { }
+                
             });
 
             const req = {
                 params: { }
             };
             const res = {
-                render: view => {
-                    expect(view).toBe('polls/register');
-                }
+                
             };
 
         });
@@ -26,6 +24,15 @@ describe("PollsCtrl", () => {
             const pollsCtrl = new PollsCtrl({
 
             })
+
+            const questions = document.getElementById("question").value;
+
+            if (questions === null || typeof questions === 'undefined') {
+                // Erreur
+            } else {
+                // C'est good
+            }
+            
         });
 
 
