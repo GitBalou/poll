@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive"
+    "test": "mocha --recursive && exit 0",
+    "test:watch": "mocha -w --recursive && exit 0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "expect": "^1.20.2",
     "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
   }
 }
