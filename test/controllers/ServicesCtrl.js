@@ -82,29 +82,27 @@ describe("ServicesCtrl", () =>
         it("Doit retourner un tableau objet contenant les sondages d'un utilisateur si l'id de la requête est présente et valide", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
-                    getPollFromUserId: (id) =>
-                    {
-                        const ResponseModel = {id: "", label: "", userIdArray: [""]};
+                getPollFromUserId: (id) =>
+                {
+                    const ResponseModel = {id: "", label: "", userIdArray: [""]};
 
-                        const poll1 = {
-                            question: "",
-                            userId: "0",
-                            responseArray: [
-                                ResponseModel,
-                            ]
-                        };
+                    const poll1 = {
+                        question: "",
+                        userId: "0",
+                        responseArray: [
+                            ResponseModel,
+                        ]
+                    };
 
-                        const poll2 = {
-                            question: "",
-                            userId: "0",
-                            responseArray: [
-                                ResponseModel,
-                            ]
-                        };
+                    const poll2 = {
+                        question: "",
+                        userId: "0",
+                        responseArray: [
+                            ResponseModel,
+                        ]
+                    };
 
-                        return [poll1, poll2];
-                    }
+                    return [poll1, poll2];
                 }
             });
 
@@ -139,9 +137,7 @@ describe("ServicesCtrl", () =>
         it("Doit retourner une erreur 404 si l'id de la requête est présente et non valide", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
-                    getPollFromUserId: (id) => {return []}
-                }
+                getPollFromUserId: (id) => {return []}
             });
 
             const req = {
@@ -163,7 +159,7 @@ describe("ServicesCtrl", () =>
                             expect(data.message).toBe("Error");
                             expect(data.data).toExist();
                             expect(data.data).toBeA("array");
-                            expect(data.data).toBe([]);
+                            expect(data.data.length).toBe(0);
                             done();
                         }
                     }
@@ -184,7 +180,7 @@ describe("ServicesCtrl", () =>
 
             const req = {
                 params: {
-                    id: {}
+                    id: null
                 }
             };
 
@@ -210,9 +206,7 @@ describe("ServicesCtrl", () =>
         it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _pollService: {
-                    getPollFromPollId: (id) => { return [] }
-                }
+                getPollFromPollId: (id) => { return [] }
             });
 
             const body = {
@@ -252,91 +246,87 @@ describe("ServicesCtrl", () =>
         it("Doit renvoyer un objet contenant les statistiques du sondage  si l'id du sondage est présent dans les paramètres de la requête , et, est présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _userService: {
-                    getUserFromUserId: (id) =>
-                    {
-                        let user = {};
-                        switch(id)
-                        {
-                            case 1:
-                                user = {
-                                    _id: 1,
-                                    email: "",
-                                    password: "",
-                                    ville: "Nantes",
-                                    age: "5",
-                                    PollCreated: [],
-                                    PollResponse: [
-                                        {_id: "11", label: "Man", userIdArray: ["1"]},
-                                    ]
-                                };
-                                break;
-                            case 2:
-                                user = {
-                                    _id: 2,
-                                    email: "",
-                                    password: "",
-                                    ville: "Nantes",
-                                    age: "10",
-                                    PollCreated: [],
-                                    PollResponse: [
-                                        {id: "22", label: "Women", userIdArray: ["2"]},
-                                    ]
-                                };
-                                break;
-                            case 3:
-                                user = {
-                                    _id: 3,
-                                    email: "",
-                                    password: "",
-                                    ville: "Paris",
-                                    age: "30",
-                                    PollCreated: [],
-                                    PollResponse: [
-                                        {id: "33", label: "Did you just assume my gender ?", userIdArray: ["3"]},
-                                    ]
-                                };
-                                break;
-                        }
-                        return user;
-                    }
+                
+                getPollFromPollId: id => {
+                    return poll = {
+                        _id: 0,
+                        question: "Are you man or women ?",
+                        userId: 0,
+                        responseArray: [
+                            {_id: "1", label: "Man", userIdArray: ["1"]},
+                            {_id: "2", label: "Women", userIdArray: ["2"]},
+                            {_id: "3", label: "Did you just assume my gender ?", userIdArray: ["3"]},
+                        ]
+                    };
                 },
-                _pollService: {
-                    getPollFromPollId: id =>
+                
+                getUserInfoForPoll: poll => {
+                    let stats = {};
+
+                    poll.responseArray.forEach(response =>
                     {
-                        return poll = {
-                            _id: 0,
-                            question: "Are you man or women ?",
-                            userId: 0,
-                            responseArray: [
-                                {_id: "1", label: "Man", userIdArray: ["1"]},
-                                {_id: "2", label: "Women", userIdArray: ["2"]},
-                                {_id: "3", label: "Did you just assume my gender ?", userIdArray: ["3"]},
-                            ]
+                        stats[response._id] = {
+                            label: response.label,
+                            ages: [],
+                            villes: [],
                         };
-                    },
-                    getUserInfoForPoll: id =>
-                    {
-                        const poll = this.getPollFromPollId(id);
-                        let stats = {};
-
-                        poll.responseArray.forEach(response =>
+                        response.userIdArray.forEach(userId =>
                         {
-                            stats[response._id] = {
-                                label: response.label,
-                                ages: [],
-                                villes: [],
-                            };
-                            response.userIdArray.forEach(userId =>
-                            {
-                                let user = this._userService.getUserFromId(userId);
-                                stats[response._id].ages.push(user.age);
-                                stats[response._id].villes.push(user.villes);
-                            })
-                        });
+                            let user = this._userService.getUserFromId(userId);
+                            stats[response._id].ages.push(user.age);
+                            stats[response._id].villes.push(user.villes);
+                        })
+                    });
 
-                        return stats;
+                    return stats;
+                }
+            }, {
+                getUserFromUserId: (id) =>
+                {
+                    let user = {};
+                    switch(id)
+                    {
+                        case 1:
+                            user = {
+                                _id: 1,
+                                email: "",
+                                password: "",
+                                ville: "Nantes",
+                                age: "5",
+                                PollCreated: [],
+                                PollResponse: [
+                                    {_id: "11", label: "Man", userIdArray: ["1"]},
+                                ]
+                            };
+                            break;
+                        case 2:
+                            user = {
+                                _id: 2,
+                                email: "",
+                                password: "",
+                                ville: "Nantes",
+                                age: "10",
+                                PollCreated: [],
+                                PollResponse: [
+                                    {id: "22", label: "Women", userIdArray: ["2"]},
+                                ]
+                            };
+                            break;
+                        case 3:
+                            user = {
+                                _id: 3,
+                                email: "",
+                                password: "",
+                                ville: "Paris",
+                                age: "30",
+                                PollCreated: [],
+                                PollResponse: [
+                                    {id: "33", label: "Did you just assume my gender ?", userIdArray: ["3"]},
+                                ]
+                            };
+                            break;
                     }
+                    return user;
                 }
             });
 
