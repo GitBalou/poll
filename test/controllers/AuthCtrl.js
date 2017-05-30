@@ -1,19 +1,25 @@
 const expect = require('expect');
 const AuthCtrl = require('../../controllers/AuthCtrl');
 
-describe("AuthCtrl", () => {
+describe("AuthCtrl", () =>
+{
 
-    describe("#Injection", () => {
+    describe("#Injection", () =>
+    {
         const authCtrl = new AuthCtrl(true);
 
-        it("Le service userService est injecté en tant que dépendance", () => {
-             expect(authCtrl._userService).toBe(true);
+        it("Le service userService est injecté en tant que dépendance", (done) =>
+        {
+            expect(authCtrl._userService).toBe(true);
+            done();
         });
     });
 
-    describe("#registerAction", () => {
+    describe("#registerAction", () =>
+    {
 
-        it("email n'est pas un paramètre: status code 400", () => {
+        it("email n'est pas un paramètre: status code 400", (done) =>
+        {
             const authCtrl = new AuthCtrl({});
 
             const req = {
@@ -21,13 +27,16 @@ describe("AuthCtrl", () => {
             };
 
             const res = {
-                status: code => {
+                status: code =>
+                {
                     expect(code).toBe(400);
 
                     return {
-                        json: data => {
+                        json: data =>
+                        {
                             expect(data).toExist();
                             expect(data.message).toBe("le mail n'est pas renseigné");
+                            done();
                         }
                     }
                 }
@@ -36,7 +45,8 @@ describe("AuthCtrl", () => {
             authCtrl.registerAction(req, res);
         });
 
-        it("email n'est pas un mail valide : status code 400", () => {
+        it("email n'est pas un mail valide : status code 400", (done) =>
+        {
             const authCtrl = new AuthCtrl({});
 
             const req = {
@@ -46,13 +56,16 @@ describe("AuthCtrl", () => {
             };
 
             const res = {
-                status: code => {
+                status: code =>
+                {
                     expect(code).toBe(400);
 
                     return {
-                        json: data => {
+                        json: data =>
+                        {
                             expect(data).toExist();
                             expect(data.message).toBe("le mail n'est pas valide");
+                            done();
                         }
                     }
                 }
@@ -61,7 +74,8 @@ describe("AuthCtrl", () => {
             authCtrl.registerAction(req, res);
         });
 
-        it("mail valide : status code 201, retourne l'utilisateur créé", () => {
+        it("mail valide : status code 201, retourne l'utilisateur créé", (done) =>
+        {
             const authCtrl = new AuthCtrl({});
 
             const req = {
@@ -71,28 +85,33 @@ describe("AuthCtrl", () => {
             };
 
             const res = {
-                status: code => {
+                status: code =>
+                {
                     expect(code).toBe(201);
 
                     return {
-                        json: data => {
+                        json: data =>
+                        {
                             expect(data).toExist();
                             expect(data.data).toExist();
                             expect(data.data.email).toExist();
                             expect(data.data.email).toBeA('string');
+                            done();
                         }
                     }
                 },
             };
 
             authCtrl.registerAction(req, res);
-        } );
+        });
 
     });
 
-    describe("#authAction", () => {
+    describe("#authAction", () =>
+    {
 
-        it("email absent: status code 400", ({}) => {
+        it("email absent: status code 400", (done) =>
+        {
             const authCtrl = new AuthCtrl();
 
             const req = {
@@ -102,47 +121,55 @@ describe("AuthCtrl", () => {
             };
 
             const res = {
-                status: code => {
+                status: code =>
+                {
                     expect(code).toBe(400);
 
                     return {
-                        json: data => {
+                        json: data =>
+                        {
                             expect(data).toExist();
                             expect(data.message).toBe("Le mail n'est pas renseigné");
+                            done();
                         }
                     }
                 }
             };
 
-            authCtrl.registerAction(req, res);
+            authCtrl.authAction(req, res);
         });
 
-         it("mot de passe absent: status code 400", () => {
+        it("mot de passe absent: status code 400", (done) =>
+        {
             const authCtrl = new AuthCtrl({});
 
             const req = {
                 params: {
-                    email: "bonemail@test.fr",
+                    email: "jhon.do@domain.tld",
                 }
             };
 
             const res = {
-                status: code => {
+                status: code =>
+                {
                     expect(code).toBe(400);
 
                     return {
-                        json: data => {
+                        json: data =>
+                        {
                             expect(data).toExist();
                             expect(data.message).toBe("Le mot de passe n'est pas renseigné");
+                            done();
                         }
                     }
                 }
             };
 
-            authCtrl.registerAction(req, res);
+            authCtrl.authAction(req, res);
         });
 
-        it("mail non valide : status code 400", () => {
+        it("mail non valide : status code 400", (done) =>
+        {
             const authCtrl = new AuthCtrl({});
 
             const req = {
@@ -153,41 +180,16 @@ describe("AuthCtrl", () => {
             };
 
             const res = {
-                status: code => {
+                status: code =>
+                {
                     expect(code).toBe(400);
 
                     return {
-                        json: data => {
+                        json: data =>
+                        {
                             expect(data).toExist();
                             expect(data.message).toExist("le mail n'est pas valide");
-                        }
-                    }
-                }
-            };
-
-            authCtrl.registerAction(req, res);
-        });
-
-        it("utilisateur non reconnu : 401", () => {
-            const authCtrl = new AuthCtrl({
-                authentificate: (email, password) => (email != 'bonemail@fre.fr' || password != 'bonjour')
-            });
-            
-            const req = {
-                params: {
-                    email: 'bonemail@fre.fr',
-                    password: "bonjour",
-                }
-            };
-
-            const res = {
-                status: code => {
-                    expect(code).toBe(401);
-
-                    return {
-                        json: data => {
-                            expect(data).toExist();
-                            expect(data.message).toExist("Cet utilisateur n'existe pas");
+                            done();
                         }
                     }
                 }
@@ -196,11 +198,12 @@ describe("AuthCtrl", () => {
             authCtrl.authAction(req, res);
         });
 
-        it("utilisateur reconnu : 200 + utilisateur + token", () => {
-             const authCtrl = new AuthCtrl({
-                authentificate: (email, password ) => (email == 'bonemail@fre.fr' && password == 'bonjour')
+        it("utilisateur non reconnu : 401", (done) =>
+        {
+            const authCtrl = new AuthCtrl({
+                authentificate: (email, password) => (email != 'bonemail@fre.fr' || password != 'bonjour')
             });
-            
+
             const req = {
                 params: {
                     email: 'bonemail@fre.fr',
@@ -209,14 +212,48 @@ describe("AuthCtrl", () => {
             };
 
             const res = {
-                json: data => {
+                status: code =>
+                {
+                    expect(code).toBe(401);
+
+                    return {
+                        json: data =>
+                        {
+                            expect(data).toExist();
+                            expect(data.message).toExist("Cet utilisateur n'existe pas");
+                            done();
+                        }
+                    }
+                }
+            };
+
+            authCtrl.authAction(req, res);
+        });
+
+        it("utilisateur reconnu : 200 + utilisateur + token", (done) =>
+        {
+            const authCtrl = new AuthCtrl({
+                authentificate: (email, password) => (email == 'bonemail@fre.fr' && password == 'bonjour')
+            });
+
+            const req = {
+                params: {
+                    email: 'bonemail@fre.fr',
+                    password: "bonjour",
+                }
+            };
+
+            const res = {
+                json: data =>
+                {
                     expect(data).toExist();
                     expect(data.data).toExist();
                     expect(data.data.user).toExist();
                     expect(data.data.user.email).toExist();
-                    expect(data.data.user.email).toBeA(string);
+                    expect(data.data.user.email).toBeA("string");
                     expect(data.data.token).toExist();
-                    expect(data.data.token).toBeA(string);
+                    expect(data.data.token).toBeA("string");
+                    done();
                 }
             };
 
