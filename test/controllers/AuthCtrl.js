@@ -74,10 +74,12 @@ describe("AuthCtrl", () =>
             authCtrl.registerAction(req, res);
         });
 
+
         it("mail valide : status 500 erreur d'enregistrement de l'utilisateur", done => {
             const authCtrl = new AuthCtrl({
                 register: (email, password) => (email != 'bonemail@fre.fr' || password != 'bonjour')
             });
+
 
             const req = {
                 params: {
@@ -89,6 +91,7 @@ describe("AuthCtrl", () =>
             const res = {
                 status: code =>
                 {
+
                     expect(code).toBe(500);
 
                     return {
