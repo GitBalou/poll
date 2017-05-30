@@ -20,5 +20,7 @@ describe('UserModel', () => {
         
     });
 
-    describe('registerUser');
+    describe('registerUser', () => {
+        
+    });
 });
