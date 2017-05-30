@@ -206,7 +206,29 @@ describe("ServicesCtrl", () =>
         it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                getPollFromPollId: (id) => { return [] }
+                _pollService: {
+                    getPollFromPollId: (id) => { return [] },
+                    getUserInfoForPoll: id =>
+                    {
+                        return stats = {
+                            1: {
+                                label: "Man",
+                                ages: [10, 15, 4, 85, 24],
+                                villes: ["Marseille", "Nantes", "Paris"]
+                            },
+                            2: {
+                                label: "Women",
+                                ages: [18, 24, 14, 80, 28],
+                                villes: ["Marseille", "Nantes", "Paris"]
+                            },
+                            3: {
+                                label: "Did you just assume my gender ?",
+                                ages: [20, 12, 4, 30, 24],
+                                villes: ["Marseille", "Nantes", "Paris"]
+                            },
+                        };
+                    }
+                }
             });
 
             const body = {
@@ -247,6 +269,7 @@ describe("ServicesCtrl", () =>
         {
             const SerCtrl = new ServicesCtrl({
                 _pollService: {
+                    getPollFromPollId: (id) => { return [] },
                     getUserInfoForPoll: id =>
                     {
                         return stats = {
