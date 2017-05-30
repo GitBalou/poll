@@ -236,7 +236,7 @@ describe("ServicesCtrl", () =>
 
                             expect(data).toExist();
                             expect(data.message).toExist();
-                            expect(data.message).toBeA("sting");
+                            expect(data.message).toBeA("string");
                             expect(data.message).toBe("Error");
                             expect(data.data).toExist();
                             expect(data.data).toBeA("array");

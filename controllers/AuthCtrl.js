@@ -17,6 +17,9 @@ class AuthCtrl
             ))
             res.status(400).json({message: "le mail n'est pas valide"});
 
+        if(!this._userService.register(req.params.email, req.params.password))
+            res.status(500).json({message: "Erreur interne"});
+
         res.status(201).json({message: "Success", data: {email: req.params.email}})
     }
 

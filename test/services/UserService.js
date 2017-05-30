@@ -4,8 +4,8 @@ const UserService = require('../../services/UserService');
 describe('UserService', () => {
 
     it('Injection de dépendances', () => {
-        const UserService = new UserService(true);
-        expect(UserService._userModel).toBe(true);
+        const userService = new UserService(true);
+        expect(userService._userModel).toBe(true);
     });
 
     describe('#authentificate', () => {
@@ -20,7 +20,7 @@ describe('UserService', () => {
             const email = "good@email.fr";
             const password = "good";
 
-            expect(userService.authentificate(email, password).toBe(true));
+            expect(userService.authentificate(email, password)).toBe(true);
         });
 
         it('retourne faux si utilisateur non reconnu', () => {
@@ -33,7 +33,7 @@ describe('UserService', () => {
             const email = "wrong@email.fr";
             const password = "good";
 
-            expect(userService.authentificate(email, password).toBe(false));
+            expect(userService.authentificate(email, password)).toBe(false);
         });
 
         it('retourne faux si mauvais pwd', () => {
@@ -46,7 +46,7 @@ describe('UserService', () => {
             const email = "good@email.fr";
             const password = "wrong";
 
-            expect(userService.authentificate(email, password).toBe(false));
+            expect(userService.authentificate(email, password)).toBe(false);
         });
     });
 
@@ -60,18 +60,18 @@ describe('UserService', () => {
             const email = "good@email.fr";
             const password = "good";
 
-            expect(userService.register(email, password).toBe(true));
+            expect(userService.register(email, password)).toBe(true);
         });
 
         it('retourne faux si enregistrement nok', () => {
             const userService = new UserService({
-                registerUser: (email, password) => (email != 'good@email.fr' || password != 'good')
+                registerUser: (email, password) => (email == 'good@email.fr' || password == 'good')
             });
 
-            const email = "good@email.fr";
+            const email = "bood@email.fr";
             const password = "good";
 
-            expect(userService.register(email, password).toBe(false));
+            expect(userService.register(email, password)).toBe(false);
         });
     });
 
