@@ -28,7 +28,7 @@ describe('UserModel', () => {
 
             expect(userModel.getUserByEmail(email)).toEqual({});
         });
-        
+
         it('user found', done => {
             const userModel = new UserModel({
                 findOne: (condition) => {
@@ -47,6 +47,8 @@ describe('UserModel', () => {
             expect(userModel.getUserByEmail(email)).toEqual({email:'good@email.fr'});
         });
         
+        it('email non valide', () => {});
+
     });
 
     describe('registerUser', () => {
