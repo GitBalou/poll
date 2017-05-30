@@ -5,6 +5,7 @@ const PollsCtrl = require('../../controllers/PollsCtrl');
 describe("PollsCtrl", () => {
     describe("#pollsPut", () => {
 
+/*
         it("Doit avoir un user_id pour pouvoir créer un sondage", done => {
             const pollsCtrl = new PollsCtrl({
                 
@@ -20,16 +21,16 @@ describe("PollsCtrl", () => {
             done();
         });
 
-
-        it("Doit retourner le message question_required s'il manque la question dans les paramètres", done => {
-            const pollsCtrl = new PollsCtrl({ })
+*/
+        it("Doit retourner le message question_required si le champ question n'a pas été rempli", done => {
+            const pollsCtrl = new PollsCtrl({ });
 
             const req = {
-                body: { }
+                body: { question: null }
             };
 
             const res = {
-                json: result => {
+                json: function(result) {
                     expect(result).toBe("question_required");
                     done();
                 }
@@ -38,13 +39,29 @@ describe("PollsCtrl", () => {
             pollsCtrl.postPoll(req, res);   
         });
 
-        it("Doit retourner le message question_required quand le paramètres question est une chaine de caractère vide.", done => {
-            const pollsCtrl = new PollsCtrl({ })
+        it('Renvoie une réponse OK si le champ question à été rempli', done => {
+
+            const pollsCtrl = new PollsCtrl({ });
 
             const req = {
-                body: {
-                    question: ''
-                 }
+                body: { question: 'Compliqué' }
+            }
+
+            const res = {
+                json: result => {
+                    expect(result).toBe('question OK');
+                    done();
+                }
+            }
+
+            pollsCtrl.postPoll(req, res);
+        })
+
+        it("Doit retourner le message question_required quand le paramètres question est une chaine de caractère vide.", done => {
+            const pollsCtrl = new PollsCtrl({ });
+
+            const req = {
+                body: { question: '' }
             };
 
             const res = {
@@ -58,27 +75,50 @@ describe("PollsCtrl", () => {
         });
 
 
-        it("Doit comprendre au minimum 2 reponses", done => {
-            const pollsCtrl = new PollsCtrl({
+        it("Doit renvoyer le message responses_required si il n'y a pas deux réponses minimum", done => {
+            const pollsCtrl = new PollsCtrl({ });
 
-            });
-            done();
+            const req = {
+                body: { response1: '',response2: '' }
+            };
+
+            const res = {
+                json: function(result) {
+                    expect(result).toBe("responses_required");
+                    done();
+                }
+                
+            };
+
+            pollsCtrl.postPoll(req, res);
         });
 
 
-        it("Tout les champs sont renseignés", done => {
-            const pollsCtrl = new PollsCtrl(true);
+        it("Renvoie 'Tout est OK !' si tous les champs sont renseignés", done => {
+            const pollsCtrl = new PollsCtrl({ });
 
-            expect(pollsCtrl._fs).toBe(true);
-            done();
+            const req = {
+                body: { question: '', response1: '', response2: ''}
+            };
+
+            const res = {
+                json: function(result) {
+                    expect(result).toBe("Tout est OK");
+                    done();
+                }
+            };
+
+            pollsCtrl.postPoll(req, res);
         });
 
 
-        it("Une erreur indéfini", done => {
-            const pollsCtrl = new PollsCtrl({
+        // it("Une erreur indéfini", done => {
+        //     const pollsCtrl = new PollsCtrl({
 
-            })
-            done();
-        });
+        //     })
+        //     done();
+        // });
+        
     })
+    
 })
