@@ -6,7 +6,7 @@ class PollsCtrl {
     }
 
     postPoll(req, res) {
-
+        res.json('question_required');
     }
     
     
