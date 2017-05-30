@@ -31,7 +31,7 @@ describe('UserService', () => {
             });
 
             const email = "wrong@email.fr";
-            const password = "good";
+            const password = "wrong";
 
             expect(userService.authentificate(email, password)).toBe(false);
         });
@@ -54,7 +54,7 @@ describe('UserService', () => {
          
          it('retourne vrai si enregistrement ok', () => {
             const userService = new UserService({
-                registerUser: (email, password) => (email == 'good@email.fr' && password == 'good')
+                registerUser: (email, password) => (email === 'good@email.fr' && password === 'good')
             });
 
             const email = "good@email.fr";
@@ -65,10 +65,10 @@ describe('UserService', () => {
 
         it('retourne faux si enregistrement nok', () => {
             const userService = new UserService({
-                registerUser: (email, password) => (email == 'good@email.fr' || password == 'good')
+                registerUser: (email, password) => (email !== 'good@email.fr' || password !== 'good')
             });
 
-            const email = "bood@email.fr";
+            const email = "good@email.fr";
             const password = "good";
 
             expect(userService.register(email, password)).toBe(false);

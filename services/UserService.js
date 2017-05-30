@@ -6,29 +6,19 @@ class UserService {
 
     authentificate(email, password)
     {
+        let pwd = this._userModel.getUserByEmail(email);
         let bool = false;
 
-        if(email === "good@email.fr")
+        if(pwd.password === password)
             bool = true;
 
-        if(email === "wrong@email.fr")
-            bool = false;
-
-        if(password === "wrong")
-            bool = false;
 
         return bool;
     }
 
     register(email, password)
     {
-        let bool = false;
-
-        if(email === "good@email.fr")
-            bool = true;
-
-
-        return bool;
+        return this._userModel.registerUser(email, password);
     }
 }
 
