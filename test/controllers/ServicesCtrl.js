@@ -360,6 +360,10 @@ describe("ServicesCtrl", () =>
                             expect(data.message).toBe("Success");
 
                             expect(data.data.stats).toExist();
+                            expect(data.data.stats.response1).toExist();
+                            expect(data.data.stats.response2).toExist();
+                            expect(data.data.stats.response3).toExist();
+
                             expect(data.data.stats.response1.label).toBeA("string");
                             expect(data.data.stats.response1.ages).toBeA("array");
                             expect(data.data.stats.response1.villes).toBeA("array");
