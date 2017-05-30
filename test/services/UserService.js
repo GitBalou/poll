@@ -50,6 +50,7 @@ describe('UserService', () => {
         });
     });
 
+<<<<<<< HEAD
     describe('#register', () => {
          
          it('retourne vrai si enregistrement ok', () => {
@@ -74,4 +75,7 @@ describe('UserService', () => {
             expect(userService.register(email, password).toBe(false));
         });
     });
+=======
+    describe('#register', () => {});
+>>>>>>> 0276960db011dd7e766ada4313d9d23d31300fe1
 });
