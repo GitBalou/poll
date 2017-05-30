@@ -143,7 +143,7 @@ describe("ServicesCtrl", () =>
 
     describe("StatsAction", () =>
     {
-        it("Doit renvoyer une erreur 500 si l'id du sondage n'est pas présent dans les paramètres de la requête", () =>
+        it("Doit renvoyer une erreur 500 si l'id du sondage n'est pas présent dans les paramètres de la requête", (done) =>
         {
             const SerCtrl = new ServicesCtrl();
 
@@ -166,6 +166,7 @@ describe("ServicesCtrl", () =>
                         json: data =>
                         {
                             expect(data.message).toBe(body.message);
+                            done();
                         }
                     }
                 }
@@ -174,7 +175,7 @@ describe("ServicesCtrl", () =>
             SerCtrl.statsAction(req, res);
         });
 
-        it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", () =>
+        it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl();
 
@@ -197,6 +198,7 @@ describe("ServicesCtrl", () =>
                         json: data =>
                         {
                             expect(data.message).toBe(body.message);
+                            done();
                         }
                     }
                 }

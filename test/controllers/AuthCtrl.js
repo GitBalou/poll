@@ -74,13 +74,47 @@ describe("AuthCtrl", () =>
             authCtrl.registerAction(req, res);
         });
 
-        it("mail valide : status code 201, retourne l'utilisateur créé", (done) =>
-        {
-            const authCtrl = new AuthCtrl({});
+        it("mail valide : status 500 erreur d'enregistrement de l'utilisateur", done => {
+            const authCtrl = new AuthCtrl({
+                register: (email, password) => (email != 'bonemail@fre.fr' || password != 'bonjour')
+            });
 
             const req = {
                 params: {
-                    email: "mail.valide@email.com"
+                    email: "bonemail@fre.fr",
+                    password: 'bonjour'
+                }
+            };
+
+            const res = {
+                status: code =>
+                {
+                    expect(code).toBe(500);
+
+                    return {
+                        json: data =>
+                        {
+                            expect(data).toExist();
+                            expect(data.message).toBe("Erreur interne");
+                            done();
+                        }
+                    }
+                },
+            };
+
+            authCtrl.registerAction(req, res);
+        });
+
+        it("mail valide : status code 201, retourne l'utilisateur créé", (done) =>
+        {
+            const authCtrl = new AuthCtrl({
+                register: (email, password) => (email == 'bonemail@fre.fr' && password == 'bonjour')
+            });
+
+            const req = {
+                params: {
+                    email: "bonemail@fre.fr",
+                    password: 'bonjour'
                 }
             };
 
