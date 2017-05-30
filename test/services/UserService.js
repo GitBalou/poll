@@ -50,5 +50,29 @@ describe('UserService', () => {
         });
     });
 
-    describe('#register', () => {});
+    describe('#register', () => {
+         
+         it('retourne vrai si enregistrement ok', () => {
+            const userService = new UserService({
+                registerUser: (email, password) => (email == 'good@email.fr' && password == 'good')
+            });
+
+            const email = "good@email.fr";
+            const password = "good";
+
+            expect(userService.register(email, password).toBe(true));
+        });
+
+        it('retourne faux si enregistrement nok', () => {
+            const userService = new UserService({
+                registerUser: (email, password) => (email != 'good@email.fr' || password != 'good')
+            });
+
+            const email = "good@email.fr";
+            const password = "good";
+
+            expect(userService.register(email, password).toBe(false));
+        });
+    });
+
 });

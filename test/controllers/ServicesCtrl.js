@@ -197,6 +197,7 @@ describe("ServicesCtrl", () =>
                         {
                             expect(data).toExist();
                             expect(data.message).toBe("Error");
+
                             done();
                         }
                     }
@@ -206,7 +207,7 @@ describe("ServicesCtrl", () =>
             SerCtrl.statsAction(req, res);
         });
 
-        it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", () =>
+        it("Doit renvoyer une erreur 404 si l'id du sondage est présent dans les paramètres de la requête , et, est non présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
                 _pollService: {
@@ -232,12 +233,14 @@ describe("ServicesCtrl", () =>
                     return {
                         json: data =>
                         {
+
                             expect(data).toExist();
                             expect(data.message).toExist();
                             expect(data.message).toBeA("sting");
                             expect(data.message).toBe("Error");
                             expect(data.data).toExist();
                             expect(data.data).toBeA("array");
+                            done();
                         }
                     }
                 }
