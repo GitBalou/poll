@@ -1,5 +1,4 @@
 //const userService = require(userService);
-const _ = require("underscore");
 
 class AuthCtrl
 {
