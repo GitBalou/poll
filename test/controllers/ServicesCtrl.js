@@ -267,8 +267,8 @@ describe("ServicesCtrl", () =>
                                 villes: ["Marseille", "Nantes", "Paris"]
                             },
                             3: {
-                                label: "Man",
-                                ages: [10, 15, 4, 85, 24],
+                                label: "Did you just assume my gender ?",
+                                ages: [20, 12, 4, 30, 24],
                                 villes: ["Marseille", "Nantes", "Paris"]
                             },
                         };
