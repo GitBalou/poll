@@ -2,10 +2,7 @@ class ServicesCtrl
 {
     statsAction(req, res) {}
 
-    listsAction(req, res)
-    {
-        res.json();
-    }
+    listsAction(req, res) {}
 }
 
 module.exports = ServicesCtrl;
