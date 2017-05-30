@@ -252,90 +252,26 @@ describe("ServicesCtrl", () =>
         it("Doit renvoyer un objet contenant les statistiques du sondage  si l'id du sondage est présent dans les paramètres de la requête , et, est présent en base de données", (done) =>
         {
             const SerCtrl = new ServicesCtrl({
-                _userService: {
-                    getUserFromUserId: (id) =>
-                    {
-                        let user = {};
-                        switch(id)
-                        {
-                            case 1:
-                                user = {
-                                    _id: 1,
-                                    email: "",
-                                    password: "",
-                                    ville: "Nantes",
-                                    age: "5",
-                                    PollCreated: [],
-                                    PollResponse: [
-                                        {_id: "11", label: "Man", userIdArray: ["1"]},
-                                    ]
-                                };
-                                break;
-                            case 2:
-                                user = {
-                                    _id: 2,
-                                    email: "",
-                                    password: "",
-                                    ville: "Nantes",
-                                    age: "10",
-                                    PollCreated: [],
-                                    PollResponse: [
-                                        {id: "22", label: "Women", userIdArray: ["2"]},
-                                    ]
-                                };
-                                break;
-                            case 3:
-                                user = {
-                                    _id: 3,
-                                    email: "",
-                                    password: "",
-                                    ville: "Paris",
-                                    age: "30",
-                                    PollCreated: [],
-                                    PollResponse: [
-                                        {id: "33", label: "Did you just assume my gender ?", userIdArray: ["3"]},
-                                    ]
-                                };
-                                break;
-                        }
-                        return user;
-                    }
-                },
                 _pollService: {
-                    getPollFromPollId: id =>
-                    {
-                        return poll = {
-                            _id: 0,
-                            question: "Are you man or women ?",
-                            userId: 0,
-                            responseArray: [
-                                {_id: "1", label: "Man", userIdArray: ["1"]},
-                                {_id: "2", label: "Women", userIdArray: ["2"]},
-                                {_id: "3", label: "Did you just assume my gender ?", userIdArray: ["3"]},
-                            ]
-                        };
-                    },
                     getUserInfoForPoll: id =>
                     {
-                        const poll = this.getPollFromPollId(id);
-                        let stats = {};
-
-                        poll.responseArray.forEach(response =>
-                        {
-                            stats[response._id] = {
-                                label: response.label,
-                                ages: [],
-                                villes: [],
-                            };
-                            response.userIdArray.forEach(userId =>
-                            {
-                                let user = this._userService.getUserFromId(userId);
-                                stats[response._id].ages.push(user.age);
-                                stats[response._id].villes.push(user.villes);
-                            })
-                        });
-
-                        return stats;
+                        return stats = {
+                            1: {
+                                label: "Man",
+                                ages: [10, 15, 4, 85, 24],
+                                villes: ["Marseille", "Nantes", "Paris"]
+                            },
+                            2: {
+                                label: "Women",
+                                ages: [18, 24, 14, 80, 28],
+                                villes: ["Marseille", "Nantes", "Paris"]
+                            },
+                            3: {
+                                label: "Man",
+                                ages: [10, 15, 4, 85, 24],
+                                villes: ["Marseille", "Nantes", "Paris"]
+                            },
+                        };
                     }
                 }
             });

@@ -16,6 +16,8 @@ describe('UserModel', () => {
             
         });
         
+        it('email non valide', () => {});
+
 
         
     });
