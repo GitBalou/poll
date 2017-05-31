@@ -11,7 +11,7 @@ class ServicesCtrl
         }
         
         const poll =  this._pollService.getPollFromPollId( req.params.id);
-        if( poll.length == 0 ) {
+        if( poll.length === 0 ) {
             res.status(404).json({message:'Error', data: []});
         }
 
@@ -29,7 +29,7 @@ class ServicesCtrl
             return;
         }
 
-        if( this._pollService.getPollFromUserId( req.params.id ).length == 0 ) {
+        if( this._pollService.getPollFromUserId( req.params.id ).length === 0 ) {
             res.status(404).json({message:'Error', data: []});
             return;
         }
