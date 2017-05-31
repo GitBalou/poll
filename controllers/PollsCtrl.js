@@ -7,7 +7,7 @@ class PollsCtrl {
 
     postPoll(req, res) {
 
-        
+        // Questions :
         if(req.body.question === null) {
             res.json('question required');
         }
@@ -20,12 +20,14 @@ class PollsCtrl {
             res.json('question must be fill');
         }
 
+        // Responses :
         if(req.body.response1 === null || req.body.response2 === null) {
             res.json('responses required');
         }else if(req.body.response1 === '' || req.body.response2 === '') {
             res.json('responses required');
         }
 
+        // Questions & responses
         if(req.body.question !== null && req.body.response1 !== null && req.body.response2 !== null) {
             res.json("Tout est OK");
         }

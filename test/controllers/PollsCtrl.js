@@ -2,26 +2,11 @@ const expect = require('expect');
 const fs = require('fs');
 const PollsCtrl = require('../../controllers/PollsCtrl');
 
+// Contrôle la méthode postPoll() de la classe PollsCtrl
 describe("PollsCtrl", () => {
     describe("#pollsPut", () => {
 
-/*
-        it("Doit avoir un user_id pour pouvoir créer un sondage", done => {
-            const pollsCtrl = new PollsCtrl({
-                
-            });
-
-            const req = {
-                params: {}
-            };
-            const res = {
-                
-            };
-
-            done();
-        });
-
-*/
+        // Questions :
         it("Doit retourner le message 'question required' si le champ question n'a pas été rempli", done => {
             const pollsCtrl = new PollsCtrl({ });
 
@@ -75,6 +60,7 @@ describe("PollsCtrl", () => {
         });
 
 
+        // Responses :
         it("Doit renvoyer le message responses required si il n'y a pas deux réponses minimum", done => {
             const pollsCtrl = new PollsCtrl({ });
 
@@ -94,6 +80,7 @@ describe("PollsCtrl", () => {
         });
 
 
+        // Questions & responses
         it("Renvoie 'Tout est OK !' si tous les champs sont renseignés", done => {
             const pollsCtrl = new PollsCtrl({ });
 
@@ -111,14 +98,6 @@ describe("PollsCtrl", () => {
             pollsCtrl.postPoll(req, res);
         });
 
-
-        // it("Une erreur indéfini", done => {
-        //     const pollsCtrl = new PollsCtrl({
-
-        //     })
-        //     done();
-        // });
-        
     })
     
 })
