@@ -22,7 +22,7 @@ describe("PollsCtrl", () => {
         });
 
 */
-        it("Doit retourner le message question_required si le champ question n'a pas été rempli", done => {
+        it("Doit retourner le message 'question required' si le champ question n'a pas été rempli", done => {
             const pollsCtrl = new PollsCtrl({ });
 
             const req = {
@@ -31,7 +31,7 @@ describe("PollsCtrl", () => {
 
             const res = {
                 json: function(result) {
-                    expect(result).toBe("question_required");
+                    expect(result).toBe("question required");
                     done();
                 }
             };
@@ -39,7 +39,7 @@ describe("PollsCtrl", () => {
             pollsCtrl.postPoll(req, res);   
         });
 
-        it('Renvoie une réponse OK si le champ question à été rempli', done => {
+        it('Renvoie "question OK" si le champ question à été rempli', done => {
 
             const pollsCtrl = new PollsCtrl({ });
 
@@ -57,7 +57,7 @@ describe("PollsCtrl", () => {
             pollsCtrl.postPoll(req, res);
         })
 
-        it("Doit retourner le message question_required quand le paramètres question est une chaine de caractère vide.", done => {
+        it("Doit retourner le message 'question must be fill' quand le paramètres question est une chaine de caractère vide.", done => {
             const pollsCtrl = new PollsCtrl({ });
 
             const req = {
@@ -66,7 +66,7 @@ describe("PollsCtrl", () => {
 
             const res = {
                 json: result => {
-                    expect(result).toBe("question_required");
+                    expect(result).toBe("question must be fill");
                     done();
                 }
             };
@@ -75,7 +75,7 @@ describe("PollsCtrl", () => {
         });
 
 
-        it("Doit renvoyer le message responses_required si il n'y a pas deux réponses minimum", done => {
+        it("Doit renvoyer le message responses required si il n'y a pas deux réponses minimum", done => {
             const pollsCtrl = new PollsCtrl({ });
 
             const req = {
@@ -84,7 +84,7 @@ describe("PollsCtrl", () => {
 
             const res = {
                 json: function(result) {
-                    expect(result).toBe("responses_required");
+                    expect(result).toBe("responses required");
                     done();
                 }
                 
@@ -98,7 +98,7 @@ describe("PollsCtrl", () => {
             const pollsCtrl = new PollsCtrl({ });
 
             const req = {
-                body: { question: '', response1: '', response2: ''}
+                body: { question: 'Lorem ipsum', response1: 'Lorem', response2: 'Ipsum'}
             };
 
             const res = {
