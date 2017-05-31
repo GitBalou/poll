@@ -20,7 +20,7 @@ describe("ServicesCtrl", () =>
         });
     });
 
-    describe("ListsAction", () =>
+    describe("#ListsAction", () =>
     {
         it("Doit retourner un tableau objet contenant tout les sondages si le parametre id de la requête n'est pas présente", (done) =>
         {
@@ -171,7 +171,7 @@ describe("ServicesCtrl", () =>
 
     });
 
-    describe("StatsAction", () =>
+    describe("#StatsAction", () =>
     {
         it("Doit renvoyer une erreur 500 si l'id du sondage n'est pas présent dans les paramètres de la requête", (done) =>
         {

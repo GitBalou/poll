@@ -20,6 +20,46 @@ class UserService {
     {
         return this._userModel.registerUser(email, password);
     }
+
+    postUser(user)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this._userModel.create(user).then(result => resolve(result)).catch(err => reject(err))
+        })
+    }
+
+    getUsers()
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this._userModel.find({}).then(result => resolve(result)).catch(err => reject(err));
+        })
+    }
+
+    getUser(query)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this._userModel.findOne(query).then(result => resolve(result)).catch(err => reject(err));
+        })
+    }
+
+    putUser(query, user)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this._userModel.update(query, user).then(result => resolve(result)).catch(err => reject(err));
+        })
+    }
+
+    removeUser(query)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this._userModel.remove(query).then(result => resolve(result)).catch(err => reject(err));
+        })
+    }
 }
 
 module.exports = UserService;

@@ -1,9 +1,9 @@
 const expect = require('expect');
 const ResponsesCtrl = require('../../controllers/ResponsesCtrl');
 
-describe("Responsesctrl", () => {
+describe("#Responsesctrl", () => {
 
-    describe("#injection", () => {
+    describe("#Injection", () => {
 
         it("les services PollService & UserService sont injectés", () => {
             const responsesCtrl = new ResponsesCtrl(true, true);
@@ -12,7 +12,7 @@ describe("Responsesctrl", () => {
         });
     });
 
-    describe("#addResponseToPoll", () => {
+    describe("#AddResponseToPoll", () => {
         
         it("le paramètre id n'est pas spécifié : status 400", () => {
             const responsesCtrl = new ResponsesCtrl({}, {});

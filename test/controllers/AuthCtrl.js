@@ -238,7 +238,7 @@ describe("AuthCtrl", () =>
         it("utilisateur non reconnu : 401", (done) =>
         {
             const authCtrl = new AuthCtrl({
-                authentificate: (email, password) => (email != 'bonemail@fre.fr' || password != 'bonjour')
+                authentificate: (email, password) => (email !== 'bonemail@fre.fr' || password !== 'bonjour')
             });
 
             const req = {
@@ -270,7 +270,7 @@ describe("AuthCtrl", () =>
         it("utilisateur reconnu : 200 + utilisateur + token", (done) =>
         {
             const authCtrl = new AuthCtrl({
-                authentificate: (email, password) => (email == 'bonemail@fre.fr' && password == 'bonjour')
+                authentificate: (email, password) => (email === 'bonemail@fre.fr' && password === 'bonjour')
             });
 
             const req = {

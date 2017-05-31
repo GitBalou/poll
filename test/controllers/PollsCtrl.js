@@ -2,7 +2,7 @@ const expect = require('expect');
 const fs = require('fs');
 const PollsCtrl = require('../../controllers/PollsCtrl');
 
-describe("PollsCtrl", () => {
+describe("#PollsCtrl", () => {
     describe("#pollsPut", () => {
 
         it("Doit avoir un user_id pour pouvoir créer un sondage", done => {
@@ -77,8 +77,8 @@ describe("PollsCtrl", () => {
         it("Une erreur indéfini", done => {
             const pollsCtrl = new PollsCtrl({
 
-            })
+            });
             done();
         });
     })
-})
+});

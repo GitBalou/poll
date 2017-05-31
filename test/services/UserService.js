@@ -1,7 +1,7 @@
 const expect = require ('expect');
 const UserService = require('../../services/UserService');
 
-describe('UserService', () => {
+describe('#UserService', () => {
 
     it('Injection de dépendances', () => {
         const userService = new UserService(true);
@@ -75,49 +75,49 @@ describe('UserService', () => {
         });
     });
 
-    describe('getUserByEmail', () => {
+    // describe('getUserByEmail', () => {
+    //
+    //     it('user not found', done => {
+    //         const userModel = new UserModel({
+    //             findOne: (condition) => {
+    //
+    //                 if( !condition.email || condition.email !== 'good@email.fr') {
+    //                     return Promise.reject({});
+    //                 }
+    //
+    //                 return Promise.resolve({});
+    //
+    //             }
+    //         });
+    //
+    //         const email = "good@email.fr";
+    //
+    //         expect(userModel.getUserByEmail(email)).toEqual({});
+    //     });
+    //
+    //     it('user found', done => {
+    //         const userModel = new UserModel({
+    //             findOne: (condition) => {
+    //
+    //                 if( !condition.email || condition.email !== 'good@email.fr') {
+    //                     return Promise.reject({});
+    //                 }
+    //
+    //                 return Promise.resolve({email:'good@email.fr'});
+    //
+    //             }
+    //         });
+    //
+    //         const email = "good@email.fr";
+    //
+    //         expect(userModel.getUserByEmail(email)).toEqual({email:'good@email.fr'});
+    //     });
+    //
+    //     it('email non valide', () => {});
+    //
+    // });
 
-        it('user not found', done => {
-            const userModel = new UserModel({
-                findOne: (condition) => {
-
-                    if( !condition.email || condition.email !== 'good@email.fr') {
-                        return Promise.reject({});
-                    }
-
-                    return Promise.resolve({});
-
-                }
-            });
-
-            const email = "good@email.fr";
-
-            expect(userModel.getUserByEmail(email)).toEqual({});
-        });
-
-        it('user found', done => {
-            const userModel = new UserModel({
-                findOne: (condition) => {
-
-                    if( !condition.email || condition.email !== 'good@email.fr') {
-                        return Promise.reject({});
-                    }
-
-                    return Promise.resolve({email:'good@email.fr'});
-
-                }
-            });
-
-            const email = "good@email.fr";
-
-            expect(userModel.getUserByEmail(email)).toEqual({email:'good@email.fr'});
-        });
-
-        it('email non valide', () => {});
-
-    });
-
-    describe('postUser', () =>
+    describe('#postUser', () =>
     {
         it('Doit pouvoir renvoyer un message en cas d\'erreur', (done) =>
         {
@@ -136,7 +136,7 @@ describe('UserService', () => {
             userService.postUser(null).catch(err =>
             {
                 expect(err).toExist();
-                expect(err).toBeA("string");
+                expect(err.message).toBeA("string");
                 done();
             });
         });
@@ -164,19 +164,20 @@ describe('UserService', () => {
         });
     });
 
-    describe('getUsers', () =>
+    describe('#getUsers', () =>
     {
         it('Doit pouvoir renvoyer un message en cas d\'erreur', (done) =>
         {
             const userService = new UserService({
                 find: () => {
-                    return new Promise((resolve, reject) => reject(null));
+                    return new Promise((resolve, reject) => reject({}));
                 }
             });
 
             userService.getUsers().catch(err =>
             {
                 expect(err).toExist();
+                expect(err).toBeA("object");
                 done();
             })
         });
@@ -188,8 +189,8 @@ describe('UserService', () => {
                     return new Promise((resolve) =>
                     {
                         resolve([
-                            {_id: ObjectId("134654532"), mail: "toto@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]},
-                            {_id: ObjectId("134654652"), mail: "titi@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]}
+                            {_id: "134654532", mail: "toto@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]},
+                            {_id: "134654652", mail: "titi@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]}
                         ]);
                     })
                 }
@@ -205,26 +206,28 @@ describe('UserService', () => {
         })
     });
 
-    describe('getUser', () =>
+    describe('#getUser', () =>
     {
         it('Doit pouvoir renvoyer un message en cas d\'erreur', (done) =>
         {
             const userService = new UserService({
                 findOne: () => {
-                    return new Promise((resolve, reject) => reject(null));
+                    return new Promise((resolve, reject) => reject({message: "It's an error !"}));
                 }
             });
 
             userService.getUser().catch(err =>
             {
                 expect(err).toExist();
+                expect(err.message).toExist();
+                expect(err.message).toBeA("string");
                 done();
             });
         });
 
         it('Doit pouvoir renvoyer le résultat en cas de réussite', (done) =>
         {
-            const user = {_id: ObjectId("134654532"), mail: "toto@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]};
+            const user = {_id: "134654532", mail: "toto@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]};
 
             const userService = new UserService({
                 findOne: () => {
@@ -241,28 +244,33 @@ describe('UserService', () => {
         });
     });
 
-    describe('putUser', () =>
+    describe('#putUser', () =>
     {
         it('Doit pouvoir renvoyer un message en cas d\'erreur', (done) =>
         {
+            const user = {_id: "134654532", mail: "toto@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]};
+
             const userService = new UserService({
                 update: () => {
-                    return new Promise((resolve, reject) => reject(null))
+                    return new Promise((resolve, reject) => reject({message: "prout"}))
                 }
             });
 
             userService.putUser().catch(err =>
             {
                 expect(err).toExist();
+                expect(err.message).toBe("prout");
                 done();
             })
         });
 
         it("Doit pouvoir renvoyer un objet en cas de réussite", (done) =>
         {
+            const user = {_id: "134654532", mail: "toto@domain.tld", password: "123456", ville: "Nantes", age: "24", polls: ["1", "2"]};
+
             const userService = new UserService({
                 update: (query, user) => {
-                    return new Promise((resolve, reject) =>
+                    return new Promise((resolve) =>
                     {
                         user.mail = "al.bator@arcadia.tld";
                         resolve(user);
@@ -270,7 +278,7 @@ describe('UserService', () => {
                 }
             });
 
-            userService.putUser().then(result =>
+            userService.putUser("", user).then(result =>
             {
                 expect(result).toExist();
                 expect(result.mail).toBe("al.bator@arcadia.tld");
@@ -279,19 +287,20 @@ describe('UserService', () => {
         });
     });
 
-    describe('deleteUser', () =>
+    describe('#removeUser', () =>
     {
         it('Doit pouvoir renvoyer un message en cas d\'erreur', (done) =>
         {
             const userService = new UserService({
                 remove: () => {
-                    return new Promise((resolve, reject) => reject(null));
+                    return new Promise((resolve, reject) => reject("toto"));
                 }
             });
 
-            userService.deleteUser().catch(err =>
+            userService.removeUser().catch(err =>
             {
                 expect(err).toExist();
+                expect(err).toBe("toto");
                 done();
             });
         });
@@ -300,11 +309,11 @@ describe('UserService', () => {
         {
             const userService = new UserService({
                 remove: () => {
-                    return new Promise((resolve, reject) => resolve({ "nRemoved" : 1 }))
+                    return new Promise((resolve, reject) => resolve({ nRemoved: 1 }))
                 }
             });
 
-            userService.deleteUser().then(result =>
+            userService.removeUser().then(result =>
             {
                 expect(result).toExist();
                 expect(result).toBeA("object");
